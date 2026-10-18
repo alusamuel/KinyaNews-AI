@@ -34,7 +34,7 @@ def space(height):
 def paragraph(text, size=10, bold=False, color='#263238', width=96):
     global y
     lines = textwrap.wrap(text, width=width, break_long_words=True, break_on_hyphens=False)
-    leading = .0168 if size <= 10 else .022
+    leading = .0150 if size < 10 else (.0168 if size == 10 else .022)
     space(len(lines)*leading+.008)
     urls = re.findall(r'https?://[^\s]+', text)
     for line in lines:
@@ -92,7 +92,7 @@ for page in source.split('<!-- page -->'):
             y-=.007
         elif line.startswith('## '):
             paragraph(line[3:],size=11,bold=True,color='#17665e',width=84)
-        else:paragraph(line)
+        else:paragraph(line, size=9.2 if page.strip().startswith('# 11. References') else 10)
         i+=1
 
 with PdfPages(output,metadata={'Title':'KinyaNews AI: Kinyarwanda News Topic Classification',

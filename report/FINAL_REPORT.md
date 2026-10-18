@@ -25,10 +25,11 @@ Organizing news into topics supports article retrieval, editorial queues and arc
 
 Kinyarwanda is selected because the task is relevant to Rwanda's news context and there is an established labeled corpus suitable for reproducible research. Niyongabo et al. (2020) frame Kinyarwanda and Kirundi classification in terms of limited annotated resources and preprocessing challenges. The present task is classification, not machine translation; it does not claim that Kinyarwanda lacks existing translation systems.
 
-The objective is to train, compare, evaluate and expose a 14-category classifier through a web interface. Four questions structure the investigation: whether learned lexical features outperform a majority baseline; whether word SVM or character features improve on word Logistic Regression; how weighting, n-grams and regularization affect validation macro F1; and what errors and data-quality checks reveal about the resulting estimates.
+The objective is to train, compare, evaluate and deploy a 14-category classifier through a web interface. Success is assessed by improvement over a majority baseline, class-sensitive evaluation and an operational end-to-end prediction workflow, rather than an unsupported target accuracy. Four questions structure the investigation: whether learned lexical features outperform a majority baseline; whether word SVM or character features improve on word Logistic Regression; how weighting, n-grams and regularization affect validation macro F1; and what errors and data-quality checks reveal about the resulting estimates.
 
 The contribution is an auditable implementation and empirical study using existing resources. It includes label-conversion checks, additional cleaning, a new split, controlled model comparisons, frozen-model evaluation, post-selection analysis and an inference application. It does not introduce a new classification algorithm or an independently collected corpus.
 
+<!-- page -->
 # 3. Related Work
 
 Niyongabo et al. (2020) introduce KINNEWS and KIRNEWS, including monolingual and cross-lingual classification experiments and released data resources. Their work provides the direct task foundation. The accompanying research repository includes TF-IDF Logistic Regression and SVM alongside neural approaches (Niyongabo et al., n.d.). This makes lexical linear models a task-relevant starting point. Our pooled, deduplicated split differs from their benchmark protocol, so numerical scores cannot be used to rank this implementation against their published models.
@@ -37,6 +38,8 @@ Joulin et al. (2017) demonstrate that efficient text classification methods can 
 
 Conneau et al. (2020) investigate multilingual Transformer representation learning and cross-lingual transfer. Such contextual approaches offer a direction for subsequent experiments, but require actual task-specific training and evaluation. The repository contains an optional Transformer training script, not a completed Transformer result.
 
+Lee et al. (2022) show that duplicate and overlapping examples matter for language-model training and evaluation. Their task differs from topic classification, so their numerical findings are not transferred here. Their work nevertheless motivates reporting overlap explicitly rather than assuming that a random split is independent. This study therefore includes both exact-text checks and a lexical-neighbor screen, while acknowledging that the latter is not a semantic duplicate detector.
+
 Scikit-learn provides the fitted vectorizers, estimators and evaluation tools used in this implementation (Pedregosa et al., 2011). The focus of the study is transparent comparison and data validity, rather than assuming architectural complexity guarantees improvement. The implementation gap addressed is a reproducible local analysis connected to a working inference interface; it is not a claim that Kinyarwanda classification was previously unavailable.
 
 <!-- page -->
@@ -44,9 +47,9 @@ Scikit-learn provides the fitted vectorizers, estimators and evaluation tools us
 
 ## 4.1 Source, characteristics and label mapping
 
-The project uses the existing cleaned KINNEWS corpus. The research repository describes collection from news websites and newspapers and documents 21,268 articles and 14 categories (Niyongabo et al., n.d.). A Hugging Face dataset card provides an additional distribution route (Niyongabo, n.d.). The exact archive URL, SHA-256 hashes and conversion procedure are recorded in data/source.json. The executed run imports the archived CSVs rather than relying on generated training records.
+The existing cleaned KINNEWS corpus is appropriate because its naturally occurring Kinyarwanda news and topic annotations match the project’s language, domain and supervised task. The research repository describes collection from news websites and newspapers and documents 21,268 articles and 14 categories (Niyongabo et al., n.d.). A Hugging Face dataset card provides an additional distribution route (Niyongabo, n.d.). The exact archive URL, SHA-256 hashes and conversion procedure are recorded in data/source.json. The executed run imports the archived CSVs rather than relying on generated training records.
 
-The source archive has one-based numeric labels; its raw files also contain English names. The importer verifies the numeric-to-name mapping, normalizes the source name “politic” to “politics”, and converts the cleaned CSV labels to English strings. The alternative Hugging Face loader uses zero-based IDs. These conventions must not be interchanged. Raw and cleaned row positions should not be assumed to identify the same article; source matching requires text or title verification.
+The source archive has one-based numeric labels; its raw files also contain English names. The importer verifies the numeric-to-name mapping, normalizes the source name “politic” to “politics”, and converts the cleaned CSV labels to English strings. The alternative Hugging Face loader uses zero-based IDs (Niyongabo, n.d.). Label conversion therefore depends on the import route.
 
 ## 4.2 Additional cleaning and split
 
@@ -75,21 +78,28 @@ The largest category is approximately 19 times the smallest. The data is therefo
 
 The baseline is a most-frequent-class DummyClassifier. It predicts politics for every validation article and establishes whether the learned models improve over exploiting class prevalence. It is not presented as a practical final classifier.
 
-Word models use TfidfVectorizer with ngram_range=(1,2), min_df=2, max_features=60,000 and sublinear_tf=True. Remaining vectorizer settings use the fitted library defaults. The effective pipeline uses sparse lexical features, rather than Word2Vec, GloVe or contextual embeddings. With smoothed inverse document frequency, a term's weight increases when it is relatively rare across training documents; sublinear term frequency reduces the influence of repeated occurrences. Vectors are L2-normalized (scikit-learn developers, n.d.-c).
+Word models use TfidfVectorizer with ngram_range=(1,2), min_df=2, max_features=60,000 and sublinear_tf=True. Remaining vectorizer settings use the fitted library defaults. The effective pipeline uses sparse lexical features, rather than Word2Vec, GloVe or contextual embeddings. With smoothed inverse document frequency, a term's weight increases when it is relatively rare across training documents; sublinear term frequency reduces the influence of repeated occurrences. Vectors are L2-normalized (scikit-learn developers, n.d.-d).
 
 The character comparator changes the analyzer to characters and uses 3–5 character n-grams while retaining the same minimum document frequency and feature ceiling. Character sequences can represent recurring fragments without explicit morphological analysis. The experiment tests their usefulness under this configuration, not the general superiority of one representation for the language.
 
 ## 5.2 Classifiers and training
 
-The original word Logistic Regression uses balanced class weights, random_state=42 and max_iter=1,000; C=1 and the lbfgs solver follow the fitted defaults. It learns a linear score for each of 14 classes. Multinomial probabilities are obtained from the scores and the highest-probability class is selected. Regularization constrains coefficient growth; smaller C corresponds to stronger regularization (scikit-learn developers, n.d.-b). These probabilities are not separately calibrated in this study.
+The original word Logistic Regression uses balanced class weights, random_state=42 and max_iter=1,000; C=1 and the lbfgs solver follow the fitted defaults. It learns a linear score for each of 14 classes. Multinomial probabilities are obtained from the scores and the highest-probability class is selected. Regularization constrains coefficient growth; smaller C corresponds to stronger regularization (scikit-learn developers, n.d.-b). These probabilities are not separately calibrated in this study. For input vector x and class k, the learned score is z_k = w_k · x + b_k, and the multiclass probability is exp(z_k) divided by the sum of exp(z_j) across classes. Training minimizes weighted classification loss with L2 regularization. Balanced weighting assigns class k a weight proportional to N/(K × n_k), where N is training size, K=14 and n_k is its training count (scikit-learn developers, n.d.-b).
 
 The word and character SVMs use LinearSVC with balanced class weights and random_state=42. They fit linear decision functions using the library's training implementation (scikit-learn developers, n.d.-a). All vectorizers and classifiers are fitted only on training data. A pipeline couples each fitted representation to its estimator, avoiding a separate test-fitted vocabulary. Scikit-learn supplies the algorithms; this project implements their data and experiment workflow (Pedregosa et al., 2011).
+
+<!-- page -->
+# Methodology — continued
 
 ## 5.3 Selection, exploratory analysis and uncertainty
 
 Original selection chooses the non-dummy candidate with the highest validation macro F1; validation accuracy breaks a tie. The selected pipeline is serialized as models/classifier.joblib. Test evaluation follows selection. Four later one-factor Logistic Regression ablations vary word n-grams, class weighting or C. Since they were conducted after inspection of the original test result, they remain exploratory validation analyses and do not replace or retest the frozen deployment.
 
-Accuracy, precision, recall and F1 follow standard classification definitions (scikit-learn developers, n.d.-d). Precision is TP/(TP+FP), recall is TP/(TP+FN), and F1 is their harmonic mean. Macro F1 averages the 14 per-class F1 values equally. Weighted F1 weights by class support. The analysis also computes seeded, class-stratified bootstrap percentile intervals from 1,000 resamples. Paired resampling compares the two word-model validation predictions. These intervals condition on fixed fitted models and one split, not repeated-training or source uncertainty.
+Accuracy, precision, recall and F1 follow standard classification definitions (scikit-learn developers, n.d.-c). Precision is TP/(TP+FP), recall is TP/(TP+FN), and F1 is their harmonic mean. Macro F1 averages the 14 per-class F1 values equally. Weighted F1 weights by class support. Bootstrap resampling estimates sampling variability by recomputing a statistic on resampled observations (Efron, 1979). This analysis uses 1,000 class-stratified resamples, preserving observed class counts and sampling with replacement within each class; seed 42 makes the calculation repeatable. The 2.5th and 97.5th percentiles define the reported interval. Paired resampling compares the two word-model validation predictions. These intervals condition on fixed fitted models and one split, not repeated-training or source uncertainty. They are descriptive uncertainty estimates rather than a correction for non-independent related articles.
+
+## 5.4 Implementation and reproducibility decisions
+
+The saved inference artifact was trained with Python 3.13.12 and scikit-learn 1.8.0. Runtime requirements are pinned to the verified environment. Research CSVs and full article-level outputs remain separate from the deployed artifact. Source archive and model hashes identify the run; results/analysis_manifest.json additionally records the split hashes used by post-selection analysis. This distinguishes algorithm choice from environment and data identity. The complete preprocessing and estimator configuration is executable in src/prepare_data.py and src/train_baseline.py rather than specified only in prose.
 
 <!-- page -->
 # 6. Experiments and Results
@@ -107,7 +117,7 @@ Table 2. Original validation experiments; selection uses macro F1.
 | Word TF-IDF + Linear SVM | 80.29 | 0.71710 | 8.596 |
 | Character TF-IDF + Linear SVM | 79.38 | 0.70543 | 41.345 |
 
-The learned methods substantially exceed the majority baseline. Word SVM provides the highest accuracy, while Logistic Regression narrowly leads macro F1. The 0.00130 macro-F1 difference is small; the paired bootstrap interval for Logistic Regression minus word SVM is [-0.02073, 0.02644], crossing zero. The selection rule yields a winner without establishing robust superiority. Character SVM is weaker under this feature budget and split, despite its potential to represent subword patterns.
+The learned methods substantially exceed the majority baseline. Macro-F1 interpretation follows equal averaging of per-class F1 rather than support weighting (scikit-learn developers, n.d.-c). Word SVM provides the highest accuracy, while Logistic Regression narrowly leads macro F1. The 0.00130 macro-F1 difference is small; the paired bootstrap interval for Logistic Regression minus word SVM is [-0.02073, 0.02644], crossing zero. The selection rule yields a winner without establishing robust superiority. Character SVM is weaker under this feature budget and split, despite its potential to represent subword patterns.
 
 ## 6.2 Later validation-only ablations
 
@@ -124,7 +134,7 @@ Table 3 changes one factor from the original balanced word (1,2)-gram Logistic R
 Removing class weighting causes the largest macro-F1 reduction, supporting the balancing choice on this data. Stronger regularization reduces both measured metrics. Weaker regularization raises accuracy but reduces macro F1, illustrating that conclusions depend on the objective. Unigrams alone slightly exceed the reference, so bigrams are not clearly beneficial here. All four fits finish below the 1,000-iteration cap (15–82 iterations). The small unigram gain is retained as an exploratory finding. Changing deployment after inspecting the test set would weaken the original evaluation claim; a fresh evaluation design is needed for follow-up selection.
 
 <!-- page -->
-# 6. Experiments and Results (continued)
+# Experiments and Results — continued
 
 ## 6.3 Frozen-model held-out performance
 
@@ -154,7 +164,7 @@ Sport is strongest by F1, while history and education are weaker. Low minority-c
 Training articles have median length 1,779 characters. Descriptive test accuracy is 0.76667 for 210 texts below 1,000 characters, 0.76844 for 1,166 texts at 1,000–2,999, and 0.80769 for 260 texts at 3,000–10,000. These groups do not establish a causal length effect. Three longer test articles are correctly predicted offline but exceed the application's input limit; deployment coverage and offline evaluation are therefore not identical.
 
 <!-- page -->
-# 6. Experiments and Results: Confusion Matrix
+# Experiments and Results — confusion matrix
 
 ![Confusion matrix](../results/confusion_matrix.png)
 
@@ -183,33 +193,29 @@ Contributions are calculated as a feature value multiplied by its coefficient fo
 
 ## 7.2 Relation to the research context
 
-The existence of task-relevant lexical and neural baselines in the KINNEWS research resources supports comparison with simple models before adding complexity (Niyongabo et al., n.d.). The present analysis shows that high-level topic categories can be useful while still leaving disagreements driven by mixed content and source labeling. The practical value of efficient classification suggested by Joulin et al. (2017) should therefore be considered alongside evaluation validity. A faster or larger model does not resolve ambiguous gold labels or related articles crossing splits.
+The existence of task-relevant lexical and neural baselines in the KINNEWS research resources supports comparison with simple models before adding complexity (Niyongabo et al., n.d.). The present analysis shows that high-level topic categories can be useful while still leaving disagreements driven by mixed content and source labeling. The lexical-overlap findings also support the need for the overlap auditing discussed by Lee et al. (2022), without assuming their language-model results quantify the bias in this classifier. The practical value of efficient classification suggested by Joulin et al. (2017) should therefore be considered alongside evaluation validity. A faster or larger model does not resolve ambiguous gold labels or related articles crossing splits.
 
 <!-- page -->
 # 8. Deployment
 
-## 8.1 Inference workflow
+## 8.1 Hosting and interaction
 
-The interface accepts a Kinyarwanda passage and posts JSON to /api/predict. Flask checks that text is a string and contains 30–10,000 characters after whitespace normalization. It loads models/classifier.joblib through a cached loader, predicts a category, and returns English and Kinyarwanda display names together with the top three Logistic Regression probabilities. The interface labels those probabilities as uncalibrated model scores. The app does not retrain on user requests or depend on a chatbot API.
+The final Flask application is hosted on Vercel at https://kinya-news-ai.vercel.app/. Flask provides the request routes and HTML template workflow (Pallets, n.d.); Vercel documents support for Flask applications exposing an app entrypoint (Vercel, n.d.). Users paste a Kinyarwanda news passage and select Analyze text. The interface displays the predicted topic in English and Kinyarwanda, plus the three highest model scores.
 
-GET /health reports whether the model is loaded. Missing artifacts produce HTTP 503 rather than fabricated predictions. Invalid prediction inputs produce HTTP 400 when the model is available. Static JavaScript displays the category and handles request failures. The source and saved artifact are separated so research data is not required in production.
+The browser sends JSON to /api/predict. The server accepts a text string containing 30–10,000 characters after whitespace normalization, loads the cached models/classifier.joblib pipeline and runs inference. The trained vectorizer and estimator are reused without request-time training or a chatbot API. Probabilities are explicitly described as uncalibrated. Missing models produce HTTP 503; invalid inputs produce HTTP 400 when the model is available. GET /health reports model readiness.
 
-## 8.2 Packaging and verification
+## 8.2 Packaging, verification and access
 
-The runtime uses Python 3.13 with pinned packages, including scikit-learn 1.8.0. The deployment ZIP includes only the selected model, metadata, inference source, templates, static assets, runtime requirements and Vercel configuration. Research CSVs, the notebook, full per-article outputs and unused candidates are excluded from the deployment bundle. The function exclusion setting was shortened to comply with the reported 256-character configuration limit; remaining exclusions are in .vercelignore.
+Production packaging includes the selected model, metadata, inference source, templates, static assets, Python 3.13 selection and pinned runtime requirements. Training data and research-only outputs are excluded. Local verification passed 17 tests and API/direct-inference checks on 14 held-out category examples. A clean runtime reproduced the test metrics and passed extracted-package checks.
 
-Local verification passed 17 tests, checked model/data hashes, confirmed exact split disjointness and compared API predictions with direct inference for 14 held-out category examples. A separate clean runtime installed the pinned wheels, passed dependency checks, reproduced held-out accuracy and macro F1, and passed extracted-package homepage, static asset, health and prediction checks. These results establish local reproducibility of the tested workflow, not a cloud availability or scalability guarantee.
+On 18 October 2026, the public homepage returned HTTP 200 and /health reported model_loaded=true, status=ready and model=tfidf_logreg. A public request for test row 1 returned entertainment with score 0.4009, matching local inference. Evidence is recorded in results/public_deployment_verification.json. These checks establish point-in-time operation rather than uptime or scalability.
 
-## 8.3 Access and alternative demonstration
-
-The source repository and submitted demonstration link are provided at the start of this report. The Canva link was supplied by the project owner; its permissions and video contents were not independently verified in preparing this report. The public application is available at https://kinya-news-ai.vercel.app/. On 18 October 2026, the homepage returned HTTP 200 and /health reported model_loaded=true, status=ready and model=tfidf_logreg. Posting the full held-out article at test row 1 to /api/predict returned entertainment, matching both the supplied label and local inference. The returned entertainment score was 0.4009 and remains uncalibrated. These are point-in-time checks, not an uptime, load or scalability benchmark. For reproducible alternative interaction, install requirements.txt, retain models/classifier.joblib and models/metadata.json, run python app.py, and visit http://localhost:5000. Research reproduction additionally requires the corpus and training dependencies.
-
-The live-system URL and verification evidence are included in the project resources. The recorded demonstration remains separately subject to reviewer access and assessment of the presenter's understanding.
+Repository, demonstration video and live-system links appear on the first page. Local reproduction remains available through python app.py after installing requirements.txt and retaining the selected model and metadata. This alternative does not replace the verified public link.
 
 <!-- page -->
 # 9. Limitations and Future Work
 
-A training-neighbor audit uses the frozen word TF-IDF space and cosine similarity. It flags 36 validation and 51 test articles at similarity at least 0.90; 22 validation and 42 test articles exceed 0.95. Maximum similarities are 0.99794 and 0.99918. These findings indicate residual lexical overlap after exact deduplication, potentially from rewrites or templates. They are not confirmed semantic duplicate counts. Reviewing the pairs and grouping related articles before a fresh split is a higher priority than reporting more digits of accuracy.
+A training-neighbor audit uses the frozen word TF-IDF space and cosine similarity. It flags 36 validation and 51 test articles at similarity at least 0.90; 22 validation and 42 test articles exceed 0.95. Maximum similarities are 0.99794 and 0.99918. These findings indicate residual lexical overlap after exact deduplication, potentially from rewrites or templates. Overlap is a recognized evaluation concern in other NLP settings as well (Lee et al., 2022). They are not confirmed semantic duplicate counts. Reviewing the pairs and grouping related articles before a fresh split is a higher priority than reporting more digits of accuracy.
 
 Only one random article split and one original training configuration per candidate were used. Bootstrap intervals condition on that split and do not account for source distribution, temporal drift, repeated training or annotation uncertainty. The late ablations are explicitly exploratory. A future study should preregister its selection procedure and use grouped cross-validation or a fresh held-out collection.
 
@@ -230,29 +236,39 @@ The main lesson is that model comparison must be interpreted alongside data qual
 
 KINNEWS and the cited algorithms are existing resources. This project implements their preparation, experiment, evaluation and inference workflow. AI assistance was used for parts of the code, tests, analysis scripts and report drafting. Reported quantitative outputs come from executed workflows, not invented results; qualitative interpretations remain reviewable hypotheses. Automated checks do not substitute for the submitter's independent understanding or defense.
 
-<!-- page -->
-# 11. References
-
-Conneau, A., Khandelwal, K., Goyal, N., Chaudhary, V., Wenzek, G., Guzmán, F., Grave, E., Ott, M., Zettlemoyer, L., & Stoyanov, V. (2020). Unsupervised cross-lingual representation learning at scale. Proceedings of ACL, 8440–8451. https://doi.org/10.18653/v1/2020.acl-main.747
-
-Joulin, A., Grave, E., Bojanowski, P., & Mikolov, T. (2017). Bag of tricks for efficient text classification. Proceedings of EACL, Volume 2: Short Papers, 427–431. https://aclanthology.org/E17-2068/
-
-Niyongabo, R. A. (n.d.). kinnews_kirnews [Dataset distribution]. Hugging Face. Retrieved October 18, 2026, from https://huggingface.co/datasets/andreniyongabo/kinnews_kirnews
-
-Niyongabo, R. A., Hong, Q., Kreutzer, J., & Huang, L. (2020). KINNEWS and KIRNEWS: Benchmarking cross-lingual text classification for Kinyarwanda and Kirundi. Proceedings of COLING, 5507–5521. https://doi.org/10.18653/v1/2020.coling-main.480
-
-Niyongabo, R. A., Hong, Q., Kreutzer, J., & Huang, L. (n.d.). KINNEWS-and-KIRNEWS-Corpus [Research repository]. Retrieved October 18, 2026, from https://github.com/Andrews2017/KINNEWS-and-KIRNEWS-Corpus
-
-Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., Blondel, M., Prettenhofer, P., Weiss, R., Dubourg, V., Vanderplas, J., Passos, A., Cournapeau, D., Brucher, M., Perrot, M., & Duchesnay, É. (2011). Scikit-learn: Machine learning in Python. Journal of Machine Learning Research, 12, 2825–2830. https://jmlr.org/papers/v12/pedregosa11a.html
-
-scikit-learn developers. (n.d.-a). LinearSVC [API documentation]. Retrieved October 18, 2026, from https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html
-
-scikit-learn developers. (n.d.-b). LogisticRegression [API documentation]. Retrieved October 18, 2026, from https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
-
-scikit-learn developers. (n.d.-c). TfidfVectorizer [API documentation]. Retrieved October 18, 2026, from https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html
-
-scikit-learn developers. (n.d.-d). Metrics and scoring: Quantifying the quality of predictions [Documentation]. Retrieved October 18, 2026, from https://scikit-learn.org/stable/modules/model_evaluation.html
-
 ## Research artifacts supporting this report
 
 Counts and provenance: data/audit.json; data/source.json. Original comparisons: results/validation_experiments.csv. Exploratory comparisons: results/validation_ablations.csv. Test results: results/test_metrics.json; results/classification_report.csv; results/confusion_matrix.png. Interpretation and uncertainty: results/error_confusions.csv; results/explained_examples.json; results/quality_analysis.json; results/lexical_overlap.csv; results/uncertainty.json. Operational verification: results/model_verification.json; results/readiness.json; results/deployment_verification.json; results/public_deployment_verification.json.
+
+<!-- page -->
+# 11. References
+
+Citation style: APA author–date. External sources are cited in the relevant text; project measurements are supported by the research artifacts identified in the preceding section.
+
+Conneau, A., Khandelwal, K., Goyal, N., Chaudhary, V., Wenzek, G., Guzmán, F., Grave, E., Ott, M., Zettlemoyer, L., & Stoyanov, V. (2020). Unsupervised cross-lingual representation learning at scale. Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics, 8440–8451. https://doi.org/10.18653/v1/2020.acl-main.747
+
+Efron, B. (1979). Bootstrap methods: Another look at the jackknife. The Annals of Statistics, 7(1), 1–26. https://doi.org/10.1214/aos/1176344552
+
+Joulin, A., Grave, E., Bojanowski, P., & Mikolov, T. (2017). Bag of tricks for efficient text classification. Proceedings of the 15th Conference of the European Chapter of the Association for Computational Linguistics: Volume 2, Short Papers, 427–431. https://aclanthology.org/E17-2068/
+
+Lee, K., Ippolito, D., Nystrom, A., Zhang, C., Eck, D., Callison-Burch, C., & Carlini, N. (2022). Deduplicating training data makes language models better. Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), 8424–8445. https://doi.org/10.18653/v1/2022.acl-long.577
+
+Niyongabo, R. A. (n.d.). kinnews_kirnews [Dataset distribution]. Hugging Face. Retrieved October 18, 2026, from https://huggingface.co/datasets/andreniyongabo/kinnews_kirnews
+
+Niyongabo, R. A., Hong, Q., Kreutzer, J., & Huang, L. (2020). KINNEWS and KIRNEWS: Benchmarking cross-lingual text classification for Kinyarwanda and Kirundi. Proceedings of the 28th International Conference on Computational Linguistics, 5507–5521. https://doi.org/10.18653/v1/2020.coling-main.480
+
+Niyongabo, R. A., Hong, Q., Kreutzer, J., & Huang, L. (n.d.). KINNEWS-and-KIRNEWS-Corpus [Research repository]. Retrieved October 18, 2026, from https://github.com/Andrews2017/KINNEWS-and-KIRNEWS-Corpus
+
+Pallets. (n.d.). Quickstart. Flask documentation (3.1.x). Retrieved October 18, 2026, from https://flask.palletsprojects.com/en/stable/quickstart/
+
+Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., Blondel, M., Prettenhofer, P., Weiss, R., Dubourg, V., Vanderplas, J., Passos, A., Cournapeau, D., Brucher, M., Perrot, M., & Duchesnay, É. (2011). Scikit-learn: Machine learning in Python. Journal of Machine Learning Research, 12, 2825–2830. https://jmlr.org/papers/v12/pedregosa11a.html
+
+scikit-learn developers. (n.d.-a). LinearSVC [API documentation, version 1.8.0]. Retrieved October 18, 2026, from https://scikit-learn.org/1.8/modules/generated/sklearn.svm.LinearSVC.html
+
+scikit-learn developers. (n.d.-b). LogisticRegression [API documentation, version 1.8.0]. Retrieved October 18, 2026, from https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.LogisticRegression.html
+
+scikit-learn developers. (n.d.-c). Metrics and scoring: Quantifying the quality of predictions [Documentation, version 1.8.0]. Retrieved October 18, 2026, from https://scikit-learn.org/1.8/modules/model_evaluation.html
+
+scikit-learn developers. (n.d.-d). TfidfVectorizer [API documentation, version 1.8.0]. Retrieved October 18, 2026, from https://scikit-learn.org/1.8/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html
+
+Vercel. (n.d.). Deploy a Flask app on Vercel. Retrieved October 18, 2026, from https://vercel.com/docs/frameworks/backend/flask
