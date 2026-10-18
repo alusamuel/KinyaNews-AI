@@ -13,3 +13,11 @@ docs/
 dist/
 models/tfidf_*.joblib
 requirements-transformer.txt
+src/train_*.py
+src/analyze_results.py
+src/check_setup.py
+src/prepare_data.py
+src/import_corpus.py
+src/run_notebook.py
+src/evaluate.py
+src/package_deployment.py
