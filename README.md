@@ -2,13 +2,14 @@
 
 KinyaNews classifies Kinyarwanda news articles into 14 topics using TF-IDF features and supervised classifiers. The repository contains data preparation, model training, evaluation, and a Flask application that loads the selected trained pipeline. Experiments use the KINNEWS corpus; measured results are recorded in [results/run_summary.md](results/run_summary.md).
 
-The demonstration video is linked below. The research report and public deployment status are documented in the submission resources. Installation and deployment preparation are documented in [docs/LOCAL_HANDOFF.md](docs/LOCAL_HANDOFF.md).
+The research report and demonstration video are linked below. Public deployment verification is pending the live-system URL. Installation and deployment preparation are documented in [docs/LOCAL_HANDOFF.md](docs/LOCAL_HANDOFF.md).
 
 ## Submission resources
 
 - GitHub repository: [alusamuel/KinyaNews-AI](https://github.com/alusamuel/KinyaNews-AI).
 - Live system: deployment pending.
 - Demo video: [Watch the project demonstration](https://canva.link/hhol2d33m4wq1ui).
+- Final research report: [PDF](report/KinyaNews_Final_Research_Report.pdf) and [editable source](report/FINAL_REPORT.md).
 - Local handoff and deployment instructions: [docs/LOCAL_HANDOFF.md](docs/LOCAL_HANDOFF.md).
 - Measured analysis and error discussion: [docs/ANALYSIS.md](docs/ANALYSIS.md).
 - Data, attribution, intended users and limitations: [docs/DATA_AND_ATTRIBUTION.md](docs/DATA_AND_ATTRIBUTION.md).
