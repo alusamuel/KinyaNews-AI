@@ -1,0 +1,15 @@
+notebooks/
+data/
+results/
+report/
+tests/
+*.ipynb
+requirements-training.txt
+
+.venv/
+.pytest_cache/
+__pycache__/
+docs/
+dist/
+models/tfidf_*.joblib
+requirements-transformer.txt

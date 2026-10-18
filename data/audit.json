@@ -1,0 +1,32 @@
+{
+  "raw_rows": 21268,
+  "valid_length_rows": 21268,
+  "conflicting_unique_texts": 159,
+  "duplicate_rows_removed": 8891,
+  "unique_rows": 10924,
+  "source": "data/official_kinnews.csv",
+  "seed": 42,
+  "splits": {
+    "train": 7646,
+    "val": 1639,
+    "test": 1639
+  },
+  "label_counts": {
+    "politics": 2082,
+    "entertainment": 1769,
+    "sport": 1718,
+    "health": 1355,
+    "economy": 1283,
+    "relationship": 757,
+    "religion": 701,
+    "technology": 253,
+    "history": 229,
+    "culture": 215,
+    "education": 186,
+    "environment": 138,
+    "fashion": 129,
+    "tourism": 109
+  },
+  "exact_cross_split_overlap": 0,
+  "warning": "Exact duplicates checked; semantic near-duplicates and sources may still cause leakage."
+}

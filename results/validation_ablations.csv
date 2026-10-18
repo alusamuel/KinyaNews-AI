@@ -1,0 +1,5 @@
+experiment,change,C,ngram_range,class_weight,validation_accuracy,validation_macro_f1,convergence_iterations,iteration_limit
+word_unigram_balanced_C1,Remove bigrams,1.0,"(1, 1)",balanced,0.7907260524710189,0.7194204615222207,47,1000
+word_bigram_unweighted_C1,Remove class weighting,1.0,"(1, 2)",None,0.7669310555216595,0.5546159149538963,69,1000
+word_bigram_balanced_C0.1,Stronger regularization,0.1,"(1, 2)",balanced,0.7370347773032336,0.6677420326506432,15,1000
+word_bigram_balanced_C10,Weaker regularization,10.0,"(1, 2)",balanced,0.8023184868822453,0.707277915629494,82,1000

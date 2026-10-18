@@ -1,0 +1,3 @@
+Run `python -m src.train_baseline` to create all three named candidate `.joblib` files, selected `classifier.joblib`, and `metadata.json`. The completed local notebook run selected Logistic Regression; results and artifact checks are in `results/run_summary.md` and `results/model_verification.json`.
+
+Only load self-produced trusted joblib files. Baseline model binaries are visible to Git and project file browsers. Fresh checkouts without the binaries require training or a verified release artifact. Include the selected model and metadata in deployment artifacts. Without the classifier, the health endpoint returns 503. Public deployment has not been verified by the local notebook run.

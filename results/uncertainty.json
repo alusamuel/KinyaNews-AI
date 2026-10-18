@@ -1,0 +1,12 @@
+{
+  "method": "1000 class-stratified paired bootstrap replicates; percentile 95% intervals; seed 42",
+  "limitations": "Conditional on one split and fixed trained models; not repeated-training uncertainty or a proof of superiority.",
+  "test_macro_f1_95_interval": [
+    0.688693977417106,
+    0.7565952873648415
+  ],
+  "validation_logreg_minus_word_svm_macro_f1_95_interval": [
+    -0.020729469454927568,
+    0.026435253974189492
+  ]
+}

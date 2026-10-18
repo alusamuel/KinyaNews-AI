@@ -1,0 +1,44 @@
+{
+  "method": "Nearest training article by cosine similarity in frozen word TF-IDF space; flags need manual review. Not semantic deduplication.",
+  "splits": {
+    "test": {
+      "at_least_0.90": 51,
+      "at_least_0.95": 42,
+      "maximum": 0.9991832808940823
+    },
+    "val": {
+      "at_least_0.90": 36,
+      "at_least_0.95": 22,
+      "maximum": 0.9979419251282436
+    }
+  },
+  "test_over_api_limit": 3,
+  "train_characters": {
+    "count": 7646.0,
+    "mean": 2152.4590635626473,
+    "std": 1666.9902912406246,
+    "min": 33.0,
+    "25%": 1242.0,
+    "50%": 1779.0,
+    "75%": 2585.5,
+    "max": 43898.0
+  },
+  "test_short_long_accuracy": {
+    "30_to_999": {
+      "n": 210,
+      "accuracy": 0.7666666666666667
+    },
+    "1000_to_2999": {
+      "n": 1166,
+      "accuracy": 0.7684391080617495
+    },
+    "3000_to_10000": {
+      "n": 260,
+      "accuracy": 0.8076923076923077
+    },
+    "over_10000": {
+      "n": 3,
+      "accuracy": 1.0
+    }
+  }
+}

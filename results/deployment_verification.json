@@ -1,0 +1,17 @@
+{
+  "python": "3.13.12",
+  "clean_runtime_install": "passed",
+  "dependency_check": "passed",
+  "extracted_deployment_smoke_test": "passed",
+  "test_accuracy": 0.7748627211714461,
+  "test_macro_f1": 0.7250922417435397,
+  "runtime_versions": {
+    "Flask": "3.1.3",
+    "scikit-learn": "1.8.0",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "joblib": "1.6.0"
+  },
+  "archive_sha256": "9f52b15c5410b8fd30e7ed9237d83b284aa25946f9aa35d444bd3ecb5de8330e",
+  "public_deployment_verified": false
+}

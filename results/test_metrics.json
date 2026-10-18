@@ -1,0 +1,5 @@
+{
+  "test_accuracy": 0.7748627211714461,
+  "test_macro_f1": 0.7250922417435397,
+  "test_samples": 1639
+}

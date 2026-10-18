@@ -1,0 +1,338 @@
+[
+  {
+    "test_row": 1,
+    "text_sha256": "d4607cccb54d9ba479ed8e13ced2464040d93c5b8ff791a8a3771d5de0f816dc",
+    "true_label": "entertainment",
+    "predicted_label": "entertainment",
+    "top_positive_contributions": [
+      {
+        "feature": "miss",
+        "contribution_to_logit": 0.22768258417248624
+      },
+      {
+        "feature": "nyampinga",
+        "contribution_to_logit": 0.11025035341451599
+      },
+      {
+        "feature": "miss rwanda",
+        "contribution_to_logit": 0.10203472928499766
+      },
+      {
+        "feature": "mukobwa",
+        "contribution_to_logit": 0.09268623105028045
+      },
+      {
+        "feature": "abafana",
+        "contribution_to_logit": 0.06464349712403514
+      },
+      {
+        "feature": "nishimwe",
+        "contribution_to_logit": 0.051459920722596315
+      },
+      {
+        "feature": "uyu mukobwa",
+        "contribution_to_logit": 0.04250409059238495
+      },
+      {
+        "feature": "bwe",
+        "contribution_to_logit": 0.04062471435618474
+      },
+      {
+        "feature": "naomie",
+        "contribution_to_logit": 0.03995391753804824
+      },
+      {
+        "feature": "bakobwa",
+        "contribution_to_logit": 0.03775319274869275
+      }
+    ]
+  },
+  {
+    "test_row": 0,
+    "text_sha256": "1474d1ba3e5fee5af87bb97b8f80900505eafee75734933f767b24343c3fef9b",
+    "true_label": "economy",
+    "predicted_label": "health",
+    "top_positive_contributions": [
+      {
+        "feature": "abaganga",
+        "contribution_to_logit": 0.20227751469946204
+      },
+      {
+        "feature": "abarwayi",
+        "contribution_to_logit": 0.16829366722902409
+      },
+      {
+        "feature": "bitaro",
+        "contribution_to_logit": 0.1594095976029922
+      },
+      {
+        "feature": "kuvura",
+        "contribution_to_logit": 0.09926534583236554
+      },
+      {
+        "feature": "dr",
+        "contribution_to_logit": 0.09773013601908259
+      },
+      {
+        "feature": "ndwara",
+        "contribution_to_logit": 0.08717772174888286
+      },
+      {
+        "feature": "ubuzima",
+        "contribution_to_logit": 0.08621386101279087
+      },
+      {
+        "feature": "indwara",
+        "contribution_to_logit": 0.0858480505665801
+      },
+      {
+        "feature": "ubuvuzi",
+        "contribution_to_logit": 0.0592419665408087
+      },
+      {
+        "feature": "uburwayi",
+        "contribution_to_logit": 0.04619140268406851
+      }
+    ]
+  },
+  {
+    "test_row": 2,
+    "text_sha256": "4cd9dad02d42f79f50ed8f36760c23697cddd4a53cdeeada2abd0d684f5807db",
+    "true_label": "economy",
+    "predicted_label": "politics",
+    "top_positive_contributions": [
+      {
+        "feature": "perezida",
+        "contribution_to_logit": 0.27803057075521204
+      },
+      {
+        "feature": "kagame",
+        "contribution_to_logit": 0.23522890899180965
+      },
+      {
+        "feature": "perezida kagame",
+        "contribution_to_logit": 0.207754943749259
+      },
+      {
+        "feature": "rwanda",
+        "contribution_to_logit": 0.089695259399735
+      },
+      {
+        "feature": "uganda",
+        "contribution_to_logit": 0.08446868007044507
+      },
+      {
+        "feature": "paul kagame",
+        "contribution_to_logit": 0.06849435163210735
+      },
+      {
+        "feature": "jenoside",
+        "contribution_to_logit": 0.05494208973683934
+      },
+      {
+        "feature": "repubulika",
+        "contribution_to_logit": 0.05374911073256276
+      },
+      {
+        "feature": "paul",
+        "contribution_to_logit": 0.047453259042435816
+      },
+      {
+        "feature": "congo",
+        "contribution_to_logit": 0.03659664928273451
+      }
+    ]
+  },
+  {
+    "test_row": 4,
+    "text_sha256": "6f86d3c3552916199bfd3bfa9bf204e40dc97f875ff58f2ff6043461d846a347",
+    "true_label": "environment",
+    "predicted_label": "economy",
+    "top_positive_contributions": [
+      {
+        "feature": "amafaranga",
+        "contribution_to_logit": 0.318736906636395
+      },
+      {
+        "feature": "rwiyemezamirimo",
+        "contribution_to_logit": 0.13896159540425376
+      },
+      {
+        "feature": "mafaranga",
+        "contribution_to_logit": 0.11879588845173576
+      },
+      {
+        "feature": "abaturage",
+        "contribution_to_logit": 0.11312366801167272
+      },
+      {
+        "feature": "kwishyura",
+        "contribution_to_logit": 0.10716351681273467
+      },
+      {
+        "feature": "akarere",
+        "contribution_to_logit": 0.1006899508204755
+      },
+      {
+        "feature": "isoko",
+        "contribution_to_logit": 0.07708651495961877
+      },
+      {
+        "feature": "imirimo",
+        "contribution_to_logit": 0.07165576753705535
+      },
+      {
+        "feature": "karere",
+        "contribution_to_logit": 0.06375528085416508
+      },
+      {
+        "feature": "sosiyete",
+        "contribution_to_logit": 0.05551111456234936
+      }
+    ]
+  },
+  {
+    "test_row": 9,
+    "text_sha256": "46c0f29d8a6c6d13c8423bf57e06d99f58e55472e487f33321f7ecb5b5d9c060",
+    "true_label": "entertainment",
+    "predicted_label": "relationship",
+    "top_positive_contributions": [
+      {
+        "feature": "urukundo",
+        "contribution_to_logit": 0.3253542284515167
+      },
+      {
+        "feature": "umugabo",
+        "contribution_to_logit": 0.23361040300571448
+      },
+      {
+        "feature": "umugore",
+        "contribution_to_logit": 0.1848762880833428
+      },
+      {
+        "feature": "umusore",
+        "contribution_to_logit": 0.1798807579295601
+      },
+      {
+        "feature": "abagabo",
+        "contribution_to_logit": 0.178566663546077
+      },
+      {
+        "feature": "gukundana",
+        "contribution_to_logit": 0.12980397417830178
+      },
+      {
+        "feature": "rukundo",
+        "contribution_to_logit": 0.08058912034657274
+      },
+      {
+        "feature": "bakobwa",
+        "contribution_to_logit": 0.06557761319675934
+      },
+      {
+        "feature": "gutandukana",
+        "contribution_to_logit": 0.0603879277692943
+      },
+      {
+        "feature": "abasore",
+        "contribution_to_logit": 0.058803564354224284
+      }
+    ]
+  },
+  {
+    "test_row": 10,
+    "text_sha256": "dfbb04d53a6a1d6603fa3d6b2240abdcfbbd7bb2944aa0a56424a512061c001c",
+    "true_label": "environment",
+    "predicted_label": "entertainment",
+    "top_positive_contributions": [
+      {
+        "feature": "the",
+        "contribution_to_logit": 0.2787567163229784
+      },
+      {
+        "feature": "hassan",
+        "contribution_to_logit": 0.032715040452315075
+      },
+      {
+        "feature": "with",
+        "contribution_to_logit": 0.03222260551386267
+      },
+      {
+        "feature": "and",
+        "contribution_to_logit": 0.026221781141603416
+      },
+      {
+        "feature": "to",
+        "contribution_to_logit": 0.025102859786656093
+      },
+      {
+        "feature": "one",
+        "contribution_to_logit": 0.020522193065669495
+      },
+      {
+        "feature": "is",
+        "contribution_to_logit": 0.020048480986633446
+      },
+      {
+        "feature": "say",
+        "contribution_to_logit": 0.015082816084483731
+      },
+      {
+        "feature": "little",
+        "contribution_to_logit": 0.010711404549134086
+      },
+      {
+        "feature": "place",
+        "contribution_to_logit": 0.009413120378991897
+      }
+    ]
+  },
+  {
+    "test_row": 13,
+    "text_sha256": "6b4842ed5e09a421c83943d959b108d979a27224ba3d66c6ce99e274dd86c955",
+    "true_label": "history",
+    "predicted_label": "relationship",
+    "top_positive_contributions": [
+      {
+        "feature": "wowe",
+        "contribution_to_logit": 0.06044341344561454
+      },
+      {
+        "feature": "byiza",
+        "contribution_to_logit": 0.049010883194002826
+      },
+      {
+        "feature": "umunezero",
+        "contribution_to_logit": 0.04503572777219425
+      },
+      {
+        "feature": "byawe",
+        "contribution_to_logit": 0.04391689324177519
+      },
+      {
+        "feature": "ashaka",
+        "contribution_to_logit": 0.04242526857217108
+      },
+      {
+        "feature": "ugomba",
+        "contribution_to_logit": 0.040919290126287367
+      },
+      {
+        "feature": "cyangwa",
+        "contribution_to_logit": 0.04017871413059184
+      },
+      {
+        "feature": "iyo",
+        "contribution_to_logit": 0.03878036867383242
+      },
+      {
+        "feature": "ushobora",
+        "contribution_to_logit": 0.037221584009533085
+      },
+      {
+        "feature": "igihe",
+        "contribution_to_logit": 0.03416691303321481
+      }
+    ]
+  }
+]

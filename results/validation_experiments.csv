@@ -1,0 +1,5 @@
+experiment,validation_accuracy,validation_macro_f1,train_seconds,train_size,val_size,seed
+tfidf_logreg,0.79378,0.7184,13.329,7646,1639,42
+tfidf_linear_svm,0.80293,0.7171,8.596,7646,1639,42
+tfidf_char_svm,0.79378,0.70543,41.345,7646,1639,42
+majority_dummy,0.19036,0.02285,0.008,7646,1639,42

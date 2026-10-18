@@ -1,0 +1,67 @@
+{
+  "artifacts": [
+    {
+      "model": "tfidf_logreg",
+      "bytes": 7128638,
+      "sha256": "35cc33657080ca9a64529a821c033aee12d6afd3dcda7ec61cb00b2f21a84e98",
+      "validation_macro_f1": 0.7183969671501418,
+      "reload_verified": true,
+      "classes": 14,
+      "features": 60000,
+      "finite_coefficients": true
+    },
+    {
+      "model": "tfidf_linear_svm",
+      "bytes": 6467433,
+      "sha256": "d48b194ecb3f8bd5a29de45e9e5d9749fce8b00a2192ebe19819f973286e1d5a",
+      "validation_macro_f1": 0.7170959871899756,
+      "reload_verified": true,
+      "classes": 14,
+      "features": 60000,
+      "finite_coefficients": true
+    },
+    {
+      "model": "tfidf_char_svm",
+      "bytes": 7002078,
+      "sha256": "28e54a286a16c361b2cbcba7ef748986e04d73326a3d39bc0b4a56f0c1fc1929",
+      "validation_macro_f1": 0.7054278439952621,
+      "reload_verified": true,
+      "classes": 14,
+      "features": 60000,
+      "finite_coefficients": true
+    }
+  ],
+  "selected_model": "tfidf_logreg",
+  "deployment_matches_selected": true,
+  "health": {
+    "model": "tfidf_logreg",
+    "model_loaded": true,
+    "status": "ready"
+  },
+  "sample_expected": "economy",
+  "sample_response": {
+    "label": "health",
+    "label_kin": "Ubuzima",
+    "model": "tfidf_logreg",
+    "top_categories": [
+      {
+        "label": "health",
+        "label_kin": "Ubuzima",
+        "score": 0.3346
+      },
+      {
+        "label": "politics",
+        "label_kin": "Politiki",
+        "score": 0.2341
+      },
+      {
+        "label": "economy",
+        "label_kin": "Ubukungu",
+        "score": 0.088
+      }
+    ],
+    "warning": "Category prediction is not fact-checking. Confidence, if shown, is not guaranteed calibration."
+  },
+  "classifier_sha256": "35cc33657080ca9a64529a821c033aee12d6afd3dcda7ec61cb00b2f21a84e98",
+  "classifier_bytes": 7128638
+}

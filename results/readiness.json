@@ -1,0 +1,22 @@
+{
+  "status": "ready",
+  "selected_model": "tfidf_logreg",
+  "classes": 14,
+  "data_rows": {
+    "train": 7646,
+    "val": 1639,
+    "test": 1639
+  },
+  "saved_candidates": [
+    "tfidf_logreg",
+    "tfidf_linear_svm",
+    "tfidf_char_svm"
+  ],
+  "api_examples_checked": 14,
+  "data_checksums_verified": true,
+  "model_checksums_verified": true,
+  "exact_split_overlap": 0,
+  "application_model_matches_selected": true,
+  "scope": "local data, model artifacts and Flask test-client inference",
+  "public_deployment_verified": false
+}

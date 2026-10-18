@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.ipynb_checkpoints/
+.pytest_cache/
+models/transformer/
+!data/README.md
+!results/README.md
+!models/README.md
+
+# Corpus and full article-level outputs remain local; retain aggregate evidence.
+data/*.zip
+data/*.csv
+results/per_example_predictions.csv
+results/research_walkthrough.html
+dist/

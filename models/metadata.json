@@ -1,0 +1,30 @@
+{
+  "selected_model": "tfidf_logreg",
+  "selection": "highest validation macro F1 among non-dummy methods",
+  "labels": [
+    "culture",
+    "economy",
+    "education",
+    "entertainment",
+    "environment",
+    "fashion",
+    "health",
+    "history",
+    "politics",
+    "relationship",
+    "religion",
+    "sport",
+    "technology",
+    "tourism"
+  ],
+  "seed": 42,
+  "training_rows": 7646,
+  "validation_rows": 1639,
+  "python_version": "3.13.12",
+  "sklearn_version": "1.8.0",
+  "candidate_artifacts": [
+    "tfidf_logreg.joblib",
+    "tfidf_linear_svm.joblib",
+    "tfidf_char_svm.joblib"
+  ]
+}

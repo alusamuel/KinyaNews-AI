@@ -1,0 +1,11 @@
+{
+  "sha256": {
+    "data/train.csv": "be4ce128d28b03a59b8ea99894da515a17f4768c02e74a1e5c79f3eabd63c062",
+    "data/val.csv": "8f55cd8726e0e56c1359ac3c4e3d60007cbf4dc40261718603237586d206dcad",
+    "data/test.csv": "a93ceffc6916bd45c82c2210fe6d943bba04e6b7c00b53fdab58a40b5c80a4e7",
+    "models/classifier.joblib": "35cc33657080ca9a64529a821c033aee12d6afd3dcda7ec61cb00b2f21a84e98",
+    "models/metadata.json": "0629978292ae4327a5c38ad11a820e8d7d50666a3afcc140dee62acbfa5ce6b2"
+  },
+  "seed": 42,
+  "selected_model_changed": false
+}

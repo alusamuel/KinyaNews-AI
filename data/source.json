@@ -1,0 +1,14 @@
+{
+  "source": "https://raw.githubusercontent.com/saradhix/kinnews_kirnews/master/KINNEWS.zip",
+  "dataset_card": "https://huggingface.co/datasets/andreniyongabo/kinnews_kirnews",
+  "research_repository": "https://github.com/Andrews2017/KINNEWS-and-KIRNEWS-Corpus",
+  "archive_sha256": "79397b825aa701b058aeef0f751d6ea0760bba4d4abfd989280554ce8af56869",
+  "csv_sha256": "1114afe3d0e3a57dff5537393979cadc608df6e372ee28ab07467e3df8237a26",
+  "raw_rows": 21268,
+  "original_split_rows": [
+    17014,
+    4254
+  ],
+  "label_conversion": "Original one-based IDs to English class names; verified against all raw en_label values, normalizing politic to politics.",
+  "method": "Pool original cleaned splits; deduplicate and re-split 70/15/15 with seed 42. Not the published benchmark split."
+}

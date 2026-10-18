@@ -1,0 +1,5 @@
+# Optional, unexecuted GPU experiment; not required for the app.
+-r requirements-training.txt
+transformers>=4.46,<5
+torch>=2.3,<3
+accelerate>=0.33,<2
