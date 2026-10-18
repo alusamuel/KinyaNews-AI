@@ -12,7 +12,8 @@ Demo Video: https://canva.link/hhol2d33m4wq1ui
 Live System: https://kinya-news-ai.vercel.app/
 Public verification: homepage HTTP 200; health endpoint ready; one held-out prediction matched local inference on 18 October 2026.
 
-## 1. Abstract
+<!-- page -->
+# 1. Abstract
 
 This project investigates supervised topic classification for Kinyarwanda news and implements an interactive Flask application. The existing cleaned KINNEWS corpus provides 21,268 articles across 14 categories. Additional normalized-text deduplication and removal of contradictory text groups retain 10,924 articles, split into 7,646 training, 1,639 validation and 1,639 test records. A majority baseline is compared with word TF-IDF plus Logistic Regression, word TF-IDF plus Linear SVM, and character TF-IDF plus Linear SVM. The original comparison selects Logistic Regression using validation macro F1 of 0.71840. The selected model achieves 77.49% test accuracy and 0.72509 macro F1. Later validation-only ablations find that class weighting is beneficial and unigrams slightly exceed the original configuration; they do not alter the frozen deployment. Qualitative analysis identifies overlapping editorial topics, entity-driven lexical shortcuts and an English article in the nominal Kinyarwanda data. A lexical audit flags 51 test articles with training similarity of at least 0.90, limiting generalization claims despite zero exact overlap. The results support a practical lightweight prototype while showing that stronger data auditing and grouped evaluation should precede claims of broad reliability.
 
