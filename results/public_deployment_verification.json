@@ -1,0 +1,18 @@
+{
+  "verification_date": "2026-10-18",
+  "base_url": "https://kinya-news-ai.vercel.app/",
+  "homepage_status": 200,
+  "health": {
+    "model": "tfidf_logreg",
+    "model_loaded": true,
+    "status": "ready"
+  },
+  "prediction_example": {
+    "test_row": 1,
+    "expected_label": "entertainment",
+    "returned_label": "entertainment",
+    "top_score": 0.4009,
+    "matches_local_inference": true
+  },
+  "scope": "Point-in-time homepage, health and single held-out inference checks; not uptime, scalability or comprehensive browser testing."
+}

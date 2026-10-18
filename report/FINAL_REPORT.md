@@ -2,13 +2,15 @@
 ## Kinyarwanda News Topic Classification with TF-IDF and Linear Models
 
 NLP Capstone — Text Classification for an African Language
+Author: Samuel RURANGAMIRWA
 Research results recorded: 18 October 2026
 
 ## Project links
 
 GitHub Repository: https://github.com/alusamuel/KinyaNews-AI
 Demo Video: https://canva.link/hhol2d33m4wq1ui
-Live System: Public URL not supplied at report preparation; public accessibility is not independently verified in this report. The recorded demonstration and reproducible local application provide alternative evidence of interaction.
+Live System: https://kinya-news-ai.vercel.app/
+Public verification: homepage HTTP 200; health endpoint ready; one held-out prediction matched local inference on 18 October 2026.
 
 ## 1. Abstract
 
@@ -200,13 +202,9 @@ Local verification passed 17 tests, checked model/data hashes, confirmed exact s
 
 ## 8.3 Access and alternative demonstration
 
-The source repository and submitted demonstration link are provided at the start of this report. The Canva link was supplied by the project owner; its permissions and video contents were not independently verified in preparing this report. No public Vercel URL was supplied, so public uptime and inference cannot be asserted from the available evidence. For reproducible alternative interaction, install requirements.txt, retain models/classifier.joblib and models/metadata.json, run python app.py, and visit http://localhost:5000. Research reproduction additionally requires the corpus and training dependencies.
+The source repository and submitted demonstration link are provided at the start of this report. The Canva link was supplied by the project owner; its permissions and video contents were not independently verified in preparing this report. The public application is available at https://kinya-news-ai.vercel.app/. On 18 October 2026, the homepage returned HTTP 200 and /health reported model_loaded=true, status=ready and model=tfidf_logreg. Posting the full held-out article at test row 1 to /api/predict returned entertainment, matching both the supplied label and local inference. The returned entertainment score was 0.4009 and remains uncalibrated. These are point-in-time checks, not an uptime, load or scalability benchmark. For reproducible alternative interaction, install requirements.txt, retain models/classifier.joblib and models/metadata.json, run python app.py, and visit http://localhost:5000. Research reproduction additionally requires the corpus and training dependencies.
 
-The live-system URL should be included once supplied and verified. This is an evidence limitation rather than a claim that hosting is impossible. The recorded demonstration remains separately subject to reviewer access and assessment of the presenter's understanding.
-
-## 8.4 Reproduction map
-
-Data import and cleaning: src/import_corpus.py and src/prepare_data.py. Original experiments: src/train_baseline.py. Held-out evaluation: src/evaluate.py. Later ablations, uncertainty and overlap screen: src/analyze_results.py. Inference: app.py. Package construction: src/package_deployment.py. The executed notebook records the original end-to-end workflow, and docs/LOCAL_HANDOFF.md describes setup and commands.
+The live-system URL and verification evidence are included in the project resources. The recorded demonstration remains separately subject to reviewer access and assessment of the presenter's understanding.
 
 <!-- page -->
 # 9. Limitations and Future Work
@@ -226,7 +224,7 @@ Subsequent modeling could compare fastText or multilingual contextual representa
 
 KinyaNews demonstrates a reproducible supervised classification workflow and a practical interface for Kinyarwanda news. On the new deduplicated split, the original word TF-IDF Logistic Regression candidate achieves 77.49% accuracy and 0.72509 macro F1. Its advantage over word SVM on validation macro F1 is narrow, while later ablations show a substantial benefit from class weighting and no clear advantage from adding bigrams under the tested settings.
 
-The main lesson is that model comparison must be interpreted alongside data quality. Mixed editorial topics, a language-mismatched example and highly similar articles across splits restrict strong generalization claims. Transparent selection chronology, reproducible artifacts and representative failures provide a more useful account than presenting the score alone. The next research step is a stronger audited evaluation; the next practical step is verified public access and user-centered assessment.
+The main lesson is that model comparison must be interpreted alongside data quality. Mixed editorial topics, a language-mismatched example and highly similar articles across splits restrict strong generalization claims. Transparent selection chronology, reproducible artifacts and representative failures provide a more useful account than presenting the score alone. The next research step is a stronger audited evaluation; public access has been verified at a single point in time, while user-centered assessment remains future work.
 
 ## Resource and assistance acknowledgment
 
@@ -257,4 +255,4 @@ scikit-learn developers. (n.d.-d). Metrics and scoring: Quantifying the quality 
 
 ## Research artifacts supporting this report
 
-Counts and provenance: data/audit.json; data/source.json. Original comparisons: results/validation_experiments.csv. Exploratory comparisons: results/validation_ablations.csv. Test results: results/test_metrics.json; results/classification_report.csv; results/confusion_matrix.png. Interpretation and uncertainty: results/error_confusions.csv; results/explained_examples.json; results/quality_analysis.json; results/lexical_overlap.csv; results/uncertainty.json. Operational verification: results/model_verification.json; results/readiness.json; results/deployment_verification.json.
+Counts and provenance: data/audit.json; data/source.json. Original comparisons: results/validation_experiments.csv. Exploratory comparisons: results/validation_ablations.csv. Test results: results/test_metrics.json; results/classification_report.csv; results/confusion_matrix.png. Interpretation and uncertainty: results/error_confusions.csv; results/explained_examples.json; results/quality_analysis.json; results/lexical_overlap.csv; results/uncertainty.json. Operational verification: results/model_verification.json; results/readiness.json; results/deployment_verification.json; results/public_deployment_verification.json.

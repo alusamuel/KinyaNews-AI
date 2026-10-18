@@ -2,7 +2,7 @@
 
 ## Completed locally
 
-The data preparation, original three-model experiment, held-out evaluation, saved inference artifacts, Flask API and interface are present. Additional validation-only ablations, uncertainty intervals, lexical leakage screening, error interpretation, invalid-label regression coverage, pinned local dependencies, and an isolated deployment ZIP builder have been added. No model retraining is needed to run the saved app. No public deployment has been performed.
+The data preparation, original three-model experiment, held-out evaluation, saved inference artifacts, Flask API and interface are present. Additional validation-only ablations, uncertainty intervals, lexical leakage screening, error interpretation, invalid-label regression coverage, pinned local dependencies, and an isolated deployment ZIP builder have been added. No model retraining is needed to run the saved app. Public deployment was subsequently verified on 18 October 2026; see `results/public_deployment_verification.json`.
 
 Start with `docs/ANALYSIS.md`, `docs/DATA_AND_ATTRIBUTION.md`, `results/run_summary.md`, and aggregate CSV/JSON evidence for the final report. Read the actual code and inspect the cited test rows yourself before presenting interpretations.
 
@@ -55,10 +55,10 @@ A separate clean Python 3.13 environment was created in `/tmp`, the pinned runti
 ## What you still provide
 
 1. Push the research source and aggregate evidence to your GitHub repository; confirm actual tracked files and article reuse conditions. This project directory has no usable project-specific Git metadata; Git discovers a parent repository spanning unrelated files. Use a dedicated project repository or the extracted deployment folder, and check the repository root before staging files. No Git metadata or unrelated files were changed.
-2. Deploy, verify from an external browser, and record the direct live-system URL.
-3. Record your own approximately 10-minute demo. The assignment has conflicting duration ranges whose shared boundary is 10 minutes. Explain code and decisions in your own words, including the leakage and language-quality findings.
-4. Write the final research paper in the specified 11-section format, with consistent citations. Report the original winner and later exploratory ablations distinctly.
-5. Add repository, video and live URLs to the README and final paper. Do not submit pending-link labels as completed links.
+2. Public URL: https://kinya-news-ai.vercel.app/. Homepage, health and one held-out prediction have been checked; verify continued access before submission.
+3. Demo video supplied: https://canva.link/hhol2d33m4wq1ui. Confirm reviewer access and recording duration. The assignment has conflicting duration ranges whose shared boundary is 10 minutes. Explain code and decisions in your own words, including the leakage and language-quality findings.
+4. Review `report/KinyaNews_Final_Research_Report.pdf`, which follows the specified 11-section format with citations. Report the original winner and later exploratory ablations distinctly.
+5. Repository, video and live URLs are included in the README and report. Confirm link permissions and institutional submission requirements.
 
 ## Suggested live examples and defense preparation
 

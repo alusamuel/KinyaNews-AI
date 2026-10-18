@@ -96,6 +96,7 @@ for page in source.split('<!-- page -->'):
         i+=1
 
 with PdfPages(output,metadata={'Title':'KinyaNews AI: Kinyarwanda News Topic Classification',
+                              'Author':'Samuel RURANGAMIRWA',
                               'Subject':'NLP capstone research report; measured classification results'}) as pdf:
     for i,f in enumerate(figures,1):
         f.text(.085,.035,'KINNEWS classification study | 18 October 2026',fontsize=7,color='#66727a')
